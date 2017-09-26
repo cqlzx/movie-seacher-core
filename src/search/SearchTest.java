@@ -18,11 +18,13 @@ public class SearchTest {
 		SearchTest tester;
 		try {
 			tester = new SearchTest();
-			tester.createIndex();
-			tester.search("Man");
-		} catch (IOException e) {
+//			tester.createIndex();
+			tester.search("dollars ");
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
-		} catch (ParseException e) {
+		} 
+		catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
@@ -33,7 +35,7 @@ public class SearchTest {
 		int numIndexed = indexer.createIndex(dataDir, new SrtFileFilter());
 		long endTime = System.currentTimeMillis();
 		indexer.close();
-		System.out.println("numIndexed: " + numIndexed + ". Time used: " + (endTime - startTime));
+		System.out.println("numIndexed: " + numIndexed + ". Time used: " + (endTime - startTime) + "ms");
 	}
 
 	private void search(String searchQuery) throws IOException, ParseException {
@@ -42,7 +44,7 @@ public class SearchTest {
 		TopDocs hits = searcher.search(searchQuery);
 		long endTime = System.currentTimeMillis();
 		
-		System.out.println(hits.totalHits + " documents found. Time used: " + (endTime - startTime));
+		System.out.println(hits.totalHits + " documents found. Time used: " + (endTime - startTime) + "ms");
 		
 		for (ScoreDoc scoreDoc : hits.scoreDocs) {
 			Document doc = searcher.getDocument(scoreDoc);

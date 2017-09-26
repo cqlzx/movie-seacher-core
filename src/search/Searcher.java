@@ -27,6 +27,8 @@ public class Searcher {
 		IndexReader reader = DirectoryReader.open(indexDirectory);
 		indexSearcher = new IndexSearcher(reader);
 		parser = new QueryParser(SearchConstant.CONTENTS, new StandardAnalyzer());
+		
+		parser.setDefaultOperator(QueryParser.Operator.AND);
 	}
 	
 	public TopDocs search(String searchQuery) throws IOException, ParseException {

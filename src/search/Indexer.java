@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -29,11 +31,12 @@ public class Indexer {
 	
 	private Document createDocument(File file) throws IOException {
 		Document document = new Document();
-		Field contentField = new Field(SearchConstant.CONTENTS, new FileReader(file), null);
 		
-		Field fileNameField = new Field(SearchConstant.FILE_NAME, file.getName(), null);
+		Field contentField = new TextField(SearchConstant.CONTENTS, new FileReader(file));
+//		System.out.println(new FileReader(file));
+		Field fileNameField = new TextField(SearchConstant.FILE_NAME, file.getName(), Field.Store.YES);
 		//index file path
-		Field filePathField = new Field(SearchConstant.FILE_PATH, file.getCanonicalPath(), null);
+		Field filePathField = new TextField(SearchConstant.FILE_PATH, file.getCanonicalPath(), Field.Store.YES);
 
 		document.add(contentField);
 		document.add(fileNameField);
@@ -51,7 +54,7 @@ public class Indexer {
 	public int createIndex(String fileDirPath, FileFilter filter) throws IOException {
 //		System.out.println(fileDirPath);
 		File f = new File(fileDirPath);
-		System.out.println(f.getAbsolutePath());
+		
 		File[] files = f.listFiles();
 //		System.out.println(files.toString());
 		
